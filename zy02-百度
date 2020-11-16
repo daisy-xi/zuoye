@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>百度一下，你就知道</title>
+    <style type="text/css">
+      a {
+        color: black;
+      }
+      a:link {
+        text-decoration: none;    /*未被访问的链接*/
+      } 
+      a:visited {
+        text-decoration: none;    /*已被访问的链接*/
+      } 
+      a:hover {
+        color: #4e6ef2;
+        text-decoration: none;    /*鼠标指针移动到链接上*/
+      } 
+      a:active {
+        text-decoration: none;    /*正在被点击的链接*/
+      } 
+
+      /* 左边的部分 */
+      .left {
+        font-size: 13px;     /*最上面部分导航字体大小*/
+        text-align: left;
+        margin: 22px;        /*上页面边距*/
+        margin-left: 15px;   /*左页面边距*/
+      }
+      /* 右边的设置和登录按钮 */
+      .right {
+        position: absolute;
+        right: 0px;
+        width: 145px;    /* “设置”和“登录”整体离网页右边距 */
+      }
+      .dropdown {
+        text-align: center;
+        position: relative;
+        display: inline-block;
+        padding-right: 25px;    /* “登录”离网页右边距 */
+      }
+      .dropdown-content {    /*设置弹出框*/
+        border-radius: 15px;     /*边框变圆角*/
+        list-style: none;
+        position: absolute;
+        display: none;
+        position: absolute;
+        background-color: #f9f9f9;
+        min-width: 60px;
+        box-shadow: 0px 5px 10px 0px rgba(29, 28, 28, 0.2);   /*设置弹出框边框阴影范围*/
+        padding: 12px 16px;        /*弹出框上下边距和左右边距*/
+        line-height: 30px;         /*弹出框里面上下行间距*/
+        z-index: 10px;
+      }
+      .dropdown-content-settings{
+        border-radius: 15px; 
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+      .box {
+        width: 650px;
+        height: 0px;
+        margin: 200px auto 100px;
+        position: relative;
+      }
+      input {
+        outline: none;
+        border: 2px solid #c5c9d8;
+        height: 45px;
+        width: 545px;
+        box-sizing: border-box;
+        text-indent: 6px;
+        font-size: 16px;
+        border-radius: 10px 0 0 10px;
+      }
+      /* 输入框 */
+      input:focus {
+        color: rgb(0, 0, 0);
+        background-color: #fff;
+        border-color: #4e6ef2 ; 
+        height: 90px;
+        border-radius: 10px 0 10px 10px;
+      }
+      .gd {
+        color: #fff;
+        background: #38f;
+        line-height: 24px;
+        font-size: 13px;
+        text-align: center;
+        border-bottom: 1px solid #38f;
+        margin-left: 7px;
+        margin-top: 10px;
+        cursor: default;
+      }
+      .hot-title {
+        font-size: 14px;   /*百度热榜字体大小*/
+        width: 655px;
+        position: relative;
+        margin: 45px auto 0;
+      }
+      .baiduhot div {
+        width: 50%;
+        overflow: hidden;
+        float: left;
+        line-height: 32px;
+      }
+      .baiduyixia {
+        font-size: 17px;
+      }
+      .title-content-title {
+        margin: 10px 0 0;
+        /* margin-top: 6px;  */
+        float: left;
+        height: 32px;
+        line-height: 32px;
+      }
+      .title-content-title1 {
+        margin: 10px 0 0;
+        margin-left: 90px;
+        float: left;
+        height: 32px;
+        line-height: 32px;
+      }
+      .right-hot {
+        float: right;
+        line-height: 20px;
+      }
+      .top1 {
+        color: #fa1a1a;
+      }
+      .top2 {
+        color: rgb(252, 106, 8);
+      }
+      .top3 {
+        color: #f3a30d;
+      }
+      .other-top {
+        background: 0 0;
+        color: #9195a3;
+      }
+      button {
+        height: 45px;
+        width: 108px;
+        border: none;
+        color: white;
+        box-sizing: border-box;
+        background-color: #4e6ef2;   /* “百度一下”背景框颜色*/
+        position: absolute;
+        left: 545px;                   /*蓝色背景框位置*/
+        border-radius: 0 10px 10px 0;   /*蓝色背景框圆角*/
+        cursor: pointer;
+      }
+      .imges {
+        position: absolute;
+        top: -140px;
+        left: 180px;
+      }
+      .cen {
+        text-align: center;
+        margin-bottom: 80px;
+      }
+      .buttom {
+        text-align: center;
+        padding-left: 23px;        /*底部距页面左边距*/
+        position: fixed;
+        bottom: 0px;
+        left: 0;
+        height: 40px;
+        line-height: 40px;
+        text-align: center;
+        font-size: 10px;
+        background-color: #fbfbfb;
+      }
+      /* 点击照相机，按照图片来搜索 */
+      .soutu-btn {
+        background: #fff
+          url(照相机.jpg)
+          no-repeat;
+        width: 24px;
+        height: 20px;
+      }
+
+      /* 登录按钮的下拉登录图片 */
+      .settings {
+        position: relative;
+        left: 13px;
+        background-color: #4e71f2;    /*边框背景为蓝色*/
+        color: #fff;                  /*边框里面字体颜色*/
+        border-radius: 6px;             /*边框变圆角*/
+        font-size: 13px;                /*边框里面字体大小*/
+        width: 49px;                    /*边框宽度*/
+        height: 24px;                   /*边框高度*/
+        display: inline-block;
+      }
+      .dropdown-settings {
+        position: relative;
+        display: inline-block;
+      }
+
+      .dropdown-content-settings {
+        display: none;
+        position: absolute;
+        right: -10px;
+        background-color: #f9f9f9;
+        min-width: 160px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      }
+
+      .dropdown-settings:hover .dropdown-content-settings {
+        display: block;
+      }
+      .gg{
+            font-size: 12px;
+            text-decoration: none;
+            color: #9fa3b1;
+            font-family: "PingFang SC",Arial,"Microsoft YaHei",sans-serif;
+            text-align: center;
+      }
+      .bdrb{
+       cursor: pointer;
+       font: 13px/23px Arial,sans-serif;
+       color:  #9195a3;
+       margin-top: 57px
+      }
+      .bdrb:hover {
+        color: #315efb;
+      }        
+    </style>
+  </head>
+  <body>
+    <div class="left">
+      <a href="">新闻</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="">hao123</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="">地图</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="">视频</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="">贴吧</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="">学术</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <div class="dropdown-settings">
+        <a href="">更多</a>
+        <div class="dropdown-content-settings">
+          <img src="更多.jpg" width="300" height="215">
+        </div>
+       </div>
+      <span class="right">
+        <div class="dropdown">
+          <a href="">设置</a>
+          <div class="dropdown-content">
+            <a href="">搜索设置</a>
+            <a href="">高级搜索</a>
+            <a href="">关闭预测</a>
+            <a href="">隐私设置</a>
+            <a href="">关闭热榜</a>
+          </div>
+        </div>
+        <button class="settings">登录</button>
+      </span>
+    </div>
+
+    <div class="box">
+      <form action="http://www.baidu.com/" target="_blank">
+        <div class="imges">
+          <img src="百度log,jpg" alt="百度logo" title="百度一下，你就知道" width="270" height="129">
+        </div>
+        <input type="text"></input>
+        <button>
+          <span class="soutu-btn"></span>
+          <button class="baiduyixia">百度一下</button>
+        </button>
+      </form>
+    </div>
+
+    <div class="hot-title">
+      <a href="">百度热榜</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="" class="bdrb">换一换</a>
+      <div class="baiduhot">
+        <div class="left-hot">
+          <span class="title-content-title top">
+            <span class="top1">1</span>
+            <a class="five" href="">钟南山说新冠病毒溯源尚未完成</a>
+          </span>
+          <span class="title-content-title">
+            <span class="top2">2</span>
+            <a class="five" href="">RCEP签完 美媒：世界不等我们了</a>
+          </span>
+          <span class="title-content-title">
+            <span class="top3">3</span>
+            <a class="five" href="">特朗普称继续对华强硬 中方回应</a>
+          </span>
+        </div>
+        <div class="right-hot">
+          <span class="title-content-title1">
+            <span class="other-top">4</span>
+            <a href="">河南杀6人嫌犯尸体已找到？谣言</a>
+          </span>
+          <span class="title-content-title1">
+            <span class="other-top">5</span>
+            <a href="">今冬首轮大范围雨雪即将上线</a>
+          </span>
+          <span class="title-content-title1">
+            <span class="other-top">6</span>
+            <a href="">被人民日报批的《雷霆战将》下架</a>
+          </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="buttom">
+      <a href=""  class="gg">设为首页</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg">关于百度</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg">About Baidu</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg">百度营销</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg">使用百度前必读</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg"> 意见反馈</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href=""  class="gg">帮助中心</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="gg">©2020 Baidu&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <span class="gg">(京)-经营性-2017-0020&nbsp;&nbsp;&nbsp;&nbsp;</span>
+      <a href="" class="gg">京公网安备11000002000001号</a> &nbsp;&nbsp;&nbsp;&nbsp;
+      <span class="gg">京ICP证030173号</span>
+    </div>
+  </body>
+</html>
