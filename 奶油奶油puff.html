@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 320px;
+            height: 427px;
+            margin: 100px;
+            border: 1px solid #ccc;
+            position: relative;
+        }
+
+        .big {
+            width: 375px;
+            height: 500px;
+            position: absolute;
+            top: 0;
+            left: 330px;
+            border: 1px solid #ccc;
+            overflow: hidden;
+            display: none;
+        }
+
+        .big img {
+            position: absolute;
+        }
+
+        .mask {
+            width: 186px;
+            height: 250px;
+            background: rgba(255, 255, 0, 0.4);
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: move;
+            display: none;
+        }
+
+        .small {
+            position: relative;
+        }
+        .aa{
+            padding-top: 50px;
+            padding-left: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aa">
+        移动光标，查看奶油细节
+    </div>
+    <div id="box" class="box">
+        <div class="small">
+            <img src="泡芙20.jpg" width="320px" alt="">
+            <div class="mask"></div>
+        </div>
+        <div class="big">
+            <img src="泡芙20.jpg" width="640px" alt="">
+        </div>
+    </div>
+
+    <script>
+        var box = document.getElementById('box');
+        var smallBox = box.children[0];
+        var smallImage = smallBox.children[0];
+        var mask = smallBox.children[1];
+        var bigBox = box.children[1];
+        var bigImage = bigBox.children[0];
+
+        function getPage(ev) {
+            return {
+                pageX: ev.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft),
+                pageY: ev.clientY + (document.documentElement.scrollTop || document.body.scrollTop)
+            }
+        }
+
+        // 鼠标移入小盒子上，显示遮盖层和大图
+        // 坑：由于鼠标移入时，有遮盖层和小盒子层，所以会产生事件冒泡。可以改用 onmouseenter 避免事件冒泡
+        // smallBox.onmouseover = function () {
+        smallBox.onmouseenter = function () {
+            mask.style.display = 'block';
+            bigBox.style.display = 'block';
+        }
+
+        // 同上
+        // smallBox.onmouseout = function () {
+        smallBox.onmouseleave = function () {
+            mask.style.display = 'none';
+            bigBox.style.display = 'none';
+        }
+
+        // 鼠标在小盒子上移动，遮盖层跟随移动
+        smallBox.onmousemove = function (ev) {
+            ev = ev || window.event;
+            var x = getPage(ev).pageX - box.offsetLeft;
+            var y = getPage(ev).pageY - box.offsetTop;
+
+            // 将鼠标设置到遮蔽层的中间
+            x -= mask.offsetWidth / 2;
+            y -= mask.offsetHeight / 2;
+
+            // 控制遮蔽层不能移出小盒子外
+            x = x < 0 ? 0 : x;
+            y = y < 0 ? 0 : y;
+            // 遮蔽层最多能移动的距离
+            var maxX = smallBox.offsetWidth - mask.offsetWidth;
+            var maxY = smallBox.offsetHeight - mask.offsetHeight;
+            x = x > maxX ? maxX : x;
+            y = y > maxY ? maxY : y;
+
+            mask.style.left = x + 'px';
+            mask.style.top = y + 'px';
+
+            // 显示大图的对应部分
+
+            // 计算大图的偏移量：大图偏移量 / 遮蔽层的偏移量 = 大图最多能移动的距离 / 遮蔽层最多能移动的距离
+            // 大图最多能移动的距离
+            var bigMaxX = bigImage.offsetWidth - bigBox.offsetWidth;
+            var bigMaxY = bigImage.offsetHeight - bigBox.offsetHeight;
+
+            var bigImageX = x * bigMaxX / maxX;
+            var bigImageY = y * bigMaxY / maxY;
+
+            bigImage.style.left = -bigImageX + 'px';
+            bigImage.style.top = -bigImageY + 'px';
+        }
+    </script>
+</body>
+
+</html>
