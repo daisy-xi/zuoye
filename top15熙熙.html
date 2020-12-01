@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1{
+        color: pink;
+        text-align: center;
+    }
+    #AD {
+            width: 200px;
+            height: 200px;
+            position: absolute;
+        }
+</style>
+<body>
+    <h1>熙熙</h1>
+    <hr color="pink">
+    <img src="x.jpg" id="AD" alt="广告">
+
+<script>
+    var ad = document.getElementById("AD");
+
+//    ad.onload = function () {
+//
+//    };
+
+    //    可视区的高度
+    var screenHeight = document.documentElement.clientHeight;
+    var diffHeight = screenHeight - ad.clientHeight;
+
+    //    可视区的宽度
+    var screenWidth = document.documentElement.clientWidth;
+    var diffWidth = screenWidth - ad.clientWidth;
+
+    ys = Math.round(Math.random() * diffHeight);
+    ad.style.top = ys + "px";
+    yv = 5;
+
+    xs = Math.round(Math.random() * diffWidth);
+    ad.style.left = xs + "px";
+    xv = 5;
+
+    setInterval( function () {
+        // y轴
+        ys += yv;
+        if (ys >= diffHeight) {
+            ys = diffHeight;
+            yv = -yv;
+        }
+        if (ys <= 0) {
+            ys = 0;
+            yv = -yv;
+        }
+        ad.style.top = ys + "px";
+
+        // x轴
+        xs += xv;
+        if (xs >= diffWidth) {
+            xs = diffWidth;
+            xv = -xv;
+        }
+        if (xs <= 0) {
+            xs = 0;
+            xv = -xv;
+        }
+        ad.style.left = xs + "px";
+    }, 200);
+</script>
+</body>
+</html>

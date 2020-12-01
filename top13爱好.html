@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1{
+        color: pink;
+        text-align: center;
+    }
+    * {
+            margin: 0;
+            padding: 0;
+            border: none;
+            list-style: none;
+        }
+
+        html, body, ul {
+            width: 100%;
+            height: 100%;
+        }
+
+        #wall {
+            position: relative;
+        }
+
+        #wall li {
+            width: 300px;
+            height: 300px;
+            box-shadow: 0 0 15px #000;
+            position: absolute;
+
+            transition: all 1s;
+        }
+
+        #wall li img {
+            width: 350px;
+            height: 350px;
+        }
+
+        #wall li.current {
+            left: 50% !important;
+            top: 50% !important;
+            transform: rotate(0) translate(-50%, -50%) scale(1.2, 1.2) !important;
+            z-index: 9;
+        }
+</style>
+<body>
+    <h1>爱好</h1>
+    <hr color="pink">
+    吃吃吃当然是我的最爱 <br>
+    上图 <br>
+    <ul id="wall">
+        <li style="left: 380.033px; top: 69.882px; transform: rotate(349.36deg);"><img src="吃的1.jpg"></li>
+        <li style="left: 495.301px; top: 161.58px; transform: rotate(102.652deg);"><img src="吃的2.jpg"></li>
+        <li style="left: 340.166px; top: 37.4142px; transform: rotate(313.958deg);"><img src="吃的3.jpg"></li>
+        <li style="left: 917.307px; top: 10.0634px; transform: rotate(138.367deg);"><img src="吃的4.jpg"></li>
+        <li style="left: 203.758px; top: 242.821px; transform: rotate(3.20453deg);"><img src="吃的5.jpg"></li>
+        <li style="left: 840.764px; top: 284.169px; transform: rotate(188.724deg);"><img src="吃的6.jpg"></li>
+        <li style="left: 433.575px; top: 58.6121px; transform: rotate(27.0842deg);"><img src="吃的7.jpg"></li>
+        <li style="left: 59.5346px; top: 375.031px; transform: rotate(47.4646deg);"><img src="吃的8.jpg"></li>
+        <li style="left: 371.528px; top: 232.676px; transform: rotate(334.107deg);"><img src="吃的9.jpg"></li>
+        <li style="left: 0.26586px; top: 233.285px; transform: rotate(58.5371deg);"><img src="吃的10.jpg"></li>
+        <li style="left: 516.821px; top: 1.29017px; transform: rotate(88.3802deg);"><img src="吃的11.jpg"></li>
+        <li style="left: 42.4237px; top: 397.027px; transform: rotate(2.90817deg);"><img src="吃的12.jpg"></li>
+    </ul>
+    <script>
+        window.onload = function () {
+            var wall = document.getElementById('wall');
+            // 照片左上角的最大位置
+            var maxWidth = document.documentElement.clientWidth - 320;
+            var maxHeight = document.documentElement.clientHeight - 426;
+
+            // 1. 动态创建 li 标签
+            for (var i = 0; i < 12; ++i) {
+                // 1.1 创建标签
+                var li = document.createElement("li");
+                wall.appendChild(li);
+
+                // 1.2 创建 img 标签
+                var img = document.createElement("img");
+                if (i < 9)
+                    img.src = "images/mn0" + (i+1) + ".jpg";
+                else
+                    img.src = "images/mn" + (i+1) + ".jpg";
+                li.appendChild(img);
+
+                // 随机位置
+                li.style.left = Math.random()*maxWidth + 'px';
+                li.style.top = Math.random()*maxHeight + 'px';
+
+                // 随机角度
+                li.style.transform = 'rotate(' + Math.random()*360 + 'deg)';
+            }
+
+            var allLis = wall.children;
+            for (var i = 0; i < allLis.length; ++i) {
+                var li = allLis[i];
+                // 监听点击事件
+                li.onclick = function () {
+                    for (var j = 0; j < allLis.length; ++j)
+                        allLis[j].className = '';
+                    this.className = "current";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

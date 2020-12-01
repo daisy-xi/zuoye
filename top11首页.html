@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    h1{
+        color: pink;
+        text-align: center;
+    }
+
+        nav {
+            width: 100%;
+            line-height: 30px;
+            padding-left: 30px;
+            background-color: pink;
+            border-bottom: 1px solid gray;
+        }
+
+        nav a {
+            color: aliceblue;
+            text-align: center;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        .registerBox {
+            width: 400px;
+            height: 300px;
+            border: 3px solid #eee;
+            box-shadow: 2px 2px 2px 2px #666;
+            /* 脱离文档流 */
+            position: absolute;
+            top: 30%;
+            left: 40%;
+            background-color: white;
+            /* 不让文字被选中 */
+            user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .hd {
+            width: 100%;
+            height: 25px;
+            background-color: #7c9299;
+            border-bottom: 1px solid #369;
+            line-height: 25px;
+            color: white;
+            cursor: move;
+        }
+
+        #boxClose {
+            float: right;
+            cursor: pointer;
+        }
+
+        .bd {
+            width: 100%;
+            height: calc(100% - 26px);
+            background-color: bisque;
+            overflow: hidden;
+        }
+</style>
+<body>
+    <h1>首页</h1>
+    <hr color="pink">
+    <nav>
+        <a href="javascript:void();" id="register">hello</a>
+    </nav>
+    <div id="registerBox" class="registerBox">
+        <div id="drop" class="hd">本人信息 (可拖曳)
+            <span id="boxClose">【关闭】</span>
+        </div>
+        <div class="bd">本人很懒，没有留下任何信息</div>
+    </div>
+
+    <script>
+        var registerBox = document.getElementById("registerBox");
+        var drop = document.getElementById("drop");
+
+        drop.onmousedown = function (ev) {
+            ev = ev || window.event;
+            // 鼠标在 registerBox 标题栏按下时的事件，计算鼠标在其中的坐标
+            var x = getPage(ev).pageX - registerBox.offsetLeft;
+            var y = getPage(ev).pageY - registerBox.offsetTop;
+
+            // 鼠标在整个文档移动时，计算 registerBox 在页面上的位置
+            document.onmousemove = function (ev) {
+                // 计算 registerBox 在页面中的坐标 = 鼠标在页面上的坐标 - 鼠标在 registerBox 中的坐标
+                registerBox.style.left = getPage(ev).pageX - x + "px";
+                registerBox.style.top = getPage(ev).pageY - y + "px";
+            }
+        }
+
+        // 当鼠标弹起时，移除 onmousemove 事件
+        window.onmouseup = function () {
+        // document.onmouseup = function () {
+            document.onmousemove = null;
+        }
+
+        function getPage(ev) {
+            return {
+                pageX: ev.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft),
+                pageY: ev.clientY + (document.documentElement.scrollTop || document.body.scrollTop)
+            }
+        }
+    </script>
+</body>
+</html>
